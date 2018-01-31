@@ -1,0 +1,17 @@
+{
+  "name": "simple-httprequest",
+  "version": "1.0.0",
+  "description": "Simple api for xmlhttprequest testing",
+  "main": "handler.js",
+  "dependencies": {
+    "aws-sdk": "^2.188.0",
+    "bluebird": "^3.5.1",
+    "uuid": "^3.2.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Alexandre Santiago da Silva",
+  "license": "ISC"
+}
