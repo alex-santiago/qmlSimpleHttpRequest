@@ -53,16 +53,18 @@ ApplicationWindow {
             }
             TextField {
                 id: tfUserId
+                width: parent.width * 0.75
             }
             Label {
                 text: "User Name:"
             }
             TextField {
                 id: tfUserName
+                width: parent.width * 0.75
             }
         }
         Row {
-            id: row
+            id: rowSolnix
             height: 40
             anchors.top: column.bottom
             anchors.topMargin: 10
@@ -71,9 +73,80 @@ ApplicationWindow {
             anchors.left: parent.left
             anchors.leftMargin: 0
             Button {
+               id: buttonLoadAllSolnix
+               text: "Solnix Load All"
+               width: parent.width / 4 - 2
+               onClicked: {
+                   Controllers.host = "http://test.solnix.com.br/api/";
+                   Controllers.getAllUsers(returnResultSolnix);
+               }
+            }
+            Rectangle {
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                color: "black"
+                width: 2
+            }
+            Button {
+               id: buttonLoadOneSolnix
+               text: "Solnix Load One"
+               width: parent.width / 4 - 2
+               onClicked: {
+                   Controllers.host = "http://test.solnix.com.br/api/";
+                   var param = new Object;
+                   param.userid = "1";
+                   Controllers.getUser(param, returnResultSolnix);
+               }
+            }
+            Rectangle {
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                color: "black"
+                width: 2
+            }
+            Button {
+               id: buttonSaveSolnix
+               text: "Solnix Save"
+               width: parent.width / 4 - 2
+               onClicked: {
+                   Controllers.host = "http://test.solnix.com.br/api/";
+                   var user = new Object;
+                   user = createUser();
+                   Controllers.upsertUser(user, returnResultSolnix);
+               }
+            }
+            Rectangle {
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                color: "black"
+                width: 2
+            }
+            Button {
+               id: buttonDeleteSolnix
+               text: "Solnix Delete"
+               width: parent.width / 4
+               onClicked: {
+                   Controllers.host = "http://test.solnix.com.br/api/";
+                   var param = new Object;
+                   param.userid = "1";
+                   Controllers.deleteUser(param, returnResultSolnix);
+               }
+            }
+        }
+
+        Row {
+            id: row
+            height: 40
+            anchors.top: rowSolnix.bottom
+            anchors.topMargin: 10
+            anchors.right: parent.right
+            anchors.rightMargin: 0
+            anchors.left: parent.left
+            anchors.leftMargin: 0
+            Button {
                 id: buttonNew
                 text: "New"
-                width: parent.width / 5 - 2
+                width: parent.width / 4 - 2
                 onClicked: {
                     txUserKey.text = "No user selected"
                     tfUserId.text = ""
@@ -94,15 +167,8 @@ ApplicationWindow {
             Button {
                id: buttonLoad
                text: "Load"
-               width: parent.width / 5 - 2
+               width: parent.width / 4 - 2
                onClicked: {
-                   var param = new Object;
-//                   param.userid = "1";
-//                   Controllers.getUser(param, returnResult);
-
-//                   param.userid = "d3d29fb0-064b-11e8-936a-738eb48db5ab";
-//                   Controllers.getUserJS(param, returnResult);
-
                    txUserKey.text = "No user selected"
                    tfUserId.text = ""
                    tfUserName.text = ""
@@ -124,28 +190,12 @@ ApplicationWindow {
             Button {
                id: buttonSave
                text: "Save"
-               width: parent.width / 5 - 2
+               width: parent.width / 4 - 2
                onClicked: {
                    var user = new Object;
-
-//                   user = createUser();
-//                   Controllers.upsertUser(user, returnResult);
-
                    user = createUserJS();
                    Controllers.upsertUserJS(user, returnResult);
-
                }
-            }
-            Rectangle {
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
-                color: "black"
-                width: 2
-            }
-            Button {
-               id: buttonUpdate
-               text: "Update"
-               width: parent.width / 5 - 2
             }
             Rectangle {
                 anchors.top: parent.top
@@ -156,16 +206,11 @@ ApplicationWindow {
             Button {
                id: buttonDelete
                text: "Delete"
-               width: parent.width / 5
+               width: parent.width / 4
                onClicked: {
                    var param = new Object;
-//                   param.userid = "1";
-//                   Controllers.getUser(param, returnResult);
-
-//                   param.userid = "714c1a70-0d39-11e8-a8a5-67a5880c750b";
                    param.userkey = selectedUser.userkey
                    Controllers.deleteUserJS(param, returnResultDelete);
-
                    Controllers.getAllUsers(returnResult);
                }
             }
@@ -237,6 +282,22 @@ ApplicationWindow {
             }
         }
 
+    }
+
+    function returnResultSolnix(result) {
+        txUserKey.text = "No user selected"
+        tfUserId.text = ""
+        tfUserName.text = ""
+
+        if (result.errorCode) {
+            console.log('result with error');
+            console.log(JSON.stringify(result));
+        }
+        else {
+            console.log('result no error');
+            console.log(JSON.stringify(result));
+        }
+        tfUserId.text = JSON.stringify(result);
     }
 
     function returnResult(result) {
