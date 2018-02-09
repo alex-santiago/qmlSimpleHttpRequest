@@ -19,6 +19,10 @@ module.exports.getuser = (event, context, callback) => {
     .then(result => {
       const response = {
         statusCode: 200,
+        headers: {
+            'x-custom-header' : 'custom header value',
+            "Access-Control-Allow-Origin" : "*" 
+        },
         body: JSON.stringify(result.Item),
       };
       callback(null, response);

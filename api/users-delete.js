@@ -19,6 +19,10 @@ module.exports.deleteuser = (event, context, callback) => {
     .then(result => {
       const response = {
         statusCode: 200,
+        headers: {
+            'x-custom-header' : 'custom header value',
+            "Access-Control-Allow-Origin" : "*" 
+        },
         body: JSON.stringify('User deleted.'),
       };
       callback(null, response);
