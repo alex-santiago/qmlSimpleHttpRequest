@@ -1,6 +1,6 @@
 // initialize host
-var host = "https://execute-api.us-west-2.amazonaws.com/dev/";
-//var host = "http://solnix.com.br/api/";
+var host = "https://t3q6mcqbhi.execute-api.us-west-2.amazonaws.com/dev/";
+//var host = "http://test.solnix.com.br/api/";
 
 // initialize application environment variables
 var app = {};
